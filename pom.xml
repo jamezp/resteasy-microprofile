@@ -163,6 +163,7 @@
         <module>rest-client</module>
         <module>context-propagation</module>
         <module>wildfly/resteasy-microprofile-channel</module>
+        <module>docs</module>
         <module>testsuite</module>
     </modules>
 

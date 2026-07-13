@@ -1,0 +1,82 @@
+[[config]]
+== MicroProfile Config Integration
+
+The RESTEasy MicroProfile Config module provides https://download.eclipse.org/microprofile/microprofile-config-3.1/apidocs/org/eclipse/microprofile/config/spi/ConfigSource.html[ConfigSource]
+implementations that integrate RESTEasy with the https://download.eclipse.org/microprofile/microprofile-config-3.1/microprofile-config-spec-3.1.html[MicroProfile Config] specification.
+
+=== Maven Dependency
+
+[source,xml]
+----
+<dependency>
+    <groupId>org.jboss.resteasy.microprofile</groupId>
+    <artifactId>microprofile-config</artifactId>
+</dependency>
+----
+
+=== Available ConfigSources
+
+The following ConfigSource implementations are provided:
+
+==== ServletConfigSource
+
+Provides configuration from `ServletConfig` initialization parameters.
+
+Priority: 60
+
+==== FilterConfigSource
+
+Provides configuration from `FilterConfig` initialization parameters.
+
+Priority: 60
+
+==== ServletContextConfigSource
+
+Provides configuration from `ServletContext` initialization parameters and context attributes.
+
+Priority: 50
+
+=== Usage Example
+
+Configuration values from these sources can be injected using MicroProfile Config:
+
+[source,java]
+----
+@Inject
+@ConfigProperty(name = "my.property")
+String myProperty;
+----
+
+Or accessed programmatically:
+
+[source,java]
+----
+import org.eclipse.microprofile.config.Config;
+import org.eclipse.microprofile.config.ConfigProvider;
+
+Config config = ConfigProvider.getConfig();
+String value = config.getValue("my.property", String.class);
+----
+
+=== Configuration in web.xml
+
+You can define configuration in your `web.xml`:
+
+[source,xml]
+----
+<web-app>
+    <context-param>
+        <param-name>my.property</param-name>
+        <param-value>some-value</param-value>
+    </context-param>
+
+    <servlet>
+        <servlet-name>MyServlet</servlet-name>
+        <servlet-class>jakarta.servlet.http.HttpServlet</servlet-class>
+        <init-param>
+            <param-name>servlet.property</param-name>
+            <param-value>servlet-value</param-value>
+        </init-param>
+    </servlet>
+</web-app>
+----
