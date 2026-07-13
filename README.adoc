@@ -4,6 +4,20 @@
 The RESTEasy MicroProfile project contains implementations and utilities for the
 https://microprofile.io/[Eclipse MicroProfile].
 
+== Documentation
+
+Full reference documentation is available in the link:docs/[docs] directory and will be published at
+https://docs.resteasy.dev/resteasy-microprofile[docs.resteasy.dev/resteasy-microprofile].
+
+To build the documentation locally:
+----
+./mvnw clean javadoc:aggregate -Pcentral-release
+./mvnw process-resources -pl docs
+----
+
+The generated HTML and PDF will be in `docs/target/generated-docs/`. The Javadocs will be generated in the
+`arget/reports/apidocs` directory.
+
 == Building
 
 Building requires https://maven.apache.org/download.cgi[Maven] and Java 25.
@@ -102,13 +116,6 @@ https://docs.wildfly.org/galleon/[Galleon] tooling to do so.
             <feature-pack>
                 <groupId>org.wildfly</groupId>
                 <artifactId>wildfly-galleon-pack</artifactId>
-                <inherit-configs>false</inherit-configs>
-                <included-configs>
-                    <config>
-                        <model>standalone</model>
-                        <name>standalone.xml</name>
-                    </config>
-                </included-configs>
             </feature-pack>
         </feature-packs>
         <channels>

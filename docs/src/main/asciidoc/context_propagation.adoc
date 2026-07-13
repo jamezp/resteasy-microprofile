@@ -1,0 +1,52 @@
+[[context-propagation]]
+== MicroProfile Context Propagation
+
+The RESTEasy MicroProfile Context Propagation module provides integration with the
+https://download.eclipse.org/microprofile/microprofile-context-propagation-1.0/microprofile-context-propagation.html[MicroProfile Context Propagation]
+specification, ensuring that RESTEasy context is properly propagated across asynchronous boundaries.
+
+=== Maven Dependency
+
+[source,xml]
+----
+<dependency>
+    <groupId>org.jboss.resteasy.microprofile</groupId>
+    <artifactId>microprofile-context-propagation</artifactId>
+</dependency>
+----
+
+=== Overview
+
+MicroProfile Context Propagation ensures that context (such as security context, transaction context, etc.) is
+maintained when executing code asynchronously. The RESTEasy integration ensures that RESTEasy-specific context
+is included in this propagation.
+
+=== Usage Example
+
+When using `CompletableFuture` or other asynchronous programming models with MicroProfile Context Propagation,
+RESTEasy context will be automatically propagated:
+
+[source,java]
+----
+@Inject
+ManagedExecutor executor;
+
+@GET
+@Path("async")
+public CompletionStage<String> asyncEndpoint() {
+    return executor.supplyAsync(() -> {
+        // RESTEasy context is available here
+        return "async result";
+    });
+}
+----
+
+=== Context Types
+
+The following RESTEasy context types are propagated:
+
+* Request context
+* Provider factory context
+* Other RESTEasy-specific contexts
+
+NOTE: This module requires a MicroProfile Context Propagation implementation to be present on the classpath.
